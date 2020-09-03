@@ -1,0 +1,22 @@
+{
+  "name": "node_practice-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeekQiaQia/node_practice-master.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeekQiaQia/node_practice-master/issues"
+  },
+  "homepage": "https://github.com/GeekQiaQia/node_practice-master#readme",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
