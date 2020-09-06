@@ -5,7 +5,6 @@ module.exports.createToken = token => {
     if (ary.length !== 3) {
         return
     }
-   
     return {
         //利用Buffer进行Base64解 码 
         getExp: () => {

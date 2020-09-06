@@ -4,6 +4,8 @@ test('练习06 有效性验证', () => {
 
     expect(new Date(token.getExp() * 1000).toISOString()).toBe('2020-06-12T03:51:12.000Z')
 })
+
+
 test('练习06 JWT有效期和有效性验证', () => {
     expect(token.verify('12345678')).toBe(true)
 })
