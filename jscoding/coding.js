@@ -136,23 +136,58 @@ function _new(Func,...arg){
     return obj
 }
 
+
+
+// 手动实现bind函数；
+/**
+ * 借用call; bind 返回一个函数；
+ * 
+*/
+Function.prototype.bind=function(context,...args){
+ 
+    let _this=this;
+    return function anonymous(...params){
+        _this.call(context,...args.concat(params));
+    }
+}
 // 手动实现call();
 /**
- * Object 构造函数创建一个对象包装器
+ * Object 构造函数创建一个对象包装器  r
  * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object
  * 
 */
 Function.prototype.call=function(context,...args){
-  context=context==null?window:context;
-  
-  //保证context是一个对象类型；
-  let contextType=typeof context;
-  if(!/^(object|function)$/.text(contextType)){
-    context=Object(context);
+
+    context=context==null?window:context;
+    
+    //保证context是一个对象类型；
+    let contextType=typeof context;
+    if(!/^(object|function)$/i.test(contextType)){
+      context=Object(context);
+    }
+    context['fn']=this;
+    let result=context['fn'](...args)
+    delete context['fn']
+    return result;
   }
-  context['fn']=this;
-  let result=context['fn'](...args)
-  delete context['fn']
-  return result;
+
+//手动实现一个apply函数；返回一个执行结果；
+Function.prototype.apply=function(context,...args){
+  
+    context=context==null?window:context
+    // 
+    if(/^(object|function)$/i.test(contextType)){
+        context=Object(context);
+    }
+    context['fn']=this;// this指向当前函数，把函数作为对象的某个成员值；
+    let result=context['fn'](...args)  // 执行函数返回执行结果；
+    delete context['fn']
+    return result;
 }
 
+
+
+//  es5实现数组扁平化flat的方法；
+
+
+// es6实现数组扁平化；
