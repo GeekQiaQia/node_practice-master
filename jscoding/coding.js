@@ -434,8 +434,189 @@ let sum = [1, 2, 3].myReduce((prev, next) => {
    *  * 每次传递部分参数；并返回 一个更具体的函数接受剩下的参数；
    *  * 中间可嵌套多层这样的接收参数的函数，
    *  * 直至返回最后的结果；
-   *  https://juejin.im/post/6870319532955828231#heading-33
+   *  https://juejin.im/post/6870319532955828231#heading-33k
    * 
   */
 
 
+  function add (a,b,c,d){
+    return a+b+c+d  
+  }
+
+
+  function  currying(fn,...args){
+      // 如果回调函数的参数总合与currying 参数综合相等，则直接执行函数fn();
+    if(fn.length===args.length){
+        return fn(...args)
+    }else{
+       // 否则返回一个匿名函数，继续接收剩余参数； 
+        return function anonymous(...newArgs){
+            let allArgs=[...args,...newArgs]
+            currying(fn,...allArgs)
+        }
+    }
+  }
+
+  // console
+  let fn1=currying(add,1,2);
+  let fn2=fn1(3)
+  let fn3=fn2(4);
+
+// 柯里化相关：
+  // https://cloud.tencent.com/developer/article/1526018
+
+
+
+// ES5实现一个继承；
+
+/**
+ * @description 寄生组合式继承；
+ *  
+ * 
+*/
+
+function Parent (name){
+    this.name=name;
+    this.colors=['red','blue','green']
+
+}
+Parent.prototype.getName=function(){
+    return this.name;  
+}
+
+// 调用父类构造函数实现继承；
+
+function  Child(name,age){
+    Parent.call(this,name);
+    this.age=age;
+}
+
+
+// 寄生组合式继承；
+Child.prototype=Object.create(Parent.prototype);
+Child.prototype.constructor=Child;
+
+Child.prototype.getAge=function(){
+    return this.age;
+
+}
+
+let girl=new Child('lisa',18)
+girl.getName()
+
+
+
+
+// 手动实现一个发布订阅；
+
+/**
+ * 发布订阅：
+ *     发布：event.emit();
+ *     订阅：event.on();
+ * 
+*/
+
+class EventEmitter{
+    constructor(){
+        this.events={};
+
+    }
+    on(eventName,callback){
+        if(!this.events[eventName]){
+            this.events[eventName]=[callback]
+        }else{
+            this.events[eventName].push(callback);
+        }
+    }
+    emit(eventName){
+        this.events[eventName]&&this.events[eventName].forEach(callback => {
+                return callback();
+        });
+    }
+}
+
+
+
+// 手动实现观察者模式；
+
+/**
+ * @description 基于发布订阅模式
+ *   有观察者 && 被观察者
+ * 
+ *   观察者需要放在被观察者中，当被观察者发生变化的时候，通知观察者，执行响应；
+ *   被观察者：手机观察者，状态变化以后，主动通知观察者；v 
+ *    
+*/
+
+class Student{
+    constructor(name){
+        this.name=name;
+        this.state='happy';
+        this.observers=[];
+    }
+     // 收集观察者们；
+    collection(ob){
+        this.observers.push(ob);
+    }
+
+    setState(newState){
+        this.state=newState;
+        // 当状态改变的时候，通知观察者更新；
+        this.observers.forEach((ob)=>{
+            ob.update(this);
+        });
+    }
+}
+
+// 观察者
+class Observer{
+    constructor(name){
+        this.name=name;
+    }
+    update(student){
+        console.log('当前'+this.name+'被通知了','当前学生的状态是',student.state);
+    }   
+
+}
+
+let student =new  Student('学生1')
+
+let parent= new Observer('baba');
+
+let teacher =new Observer('Teacher');
+
+student.collection(parent);
+student.collection(teacher);
+
+student.setState('sad');
+
+
+// 手动实现Object.freeze;
+/**
+ * Object.freeze 
+ *  冻结一个对象，让其不能再添加或者删除属性；
+ *  也不能修改该对象的可枚举、可配置可写性；
+ *  也不能修改已有属性的值和他的原型属性；
+ *  最后返回一个和传入参数相同的对象；
+ *  
+*/
+
+
+function myFreeze(obj){
+    if(obj instanceof Object){
+        Object.seal(obj); // 封闭对象；
+        for(let key in obj){
+            if(obj.hasOwnProperty(key)){
+                Object.defineProperty(obj,key,{
+                    writable:false  // 设置只读属性；
+                });
+
+              // 如果属性依然为对象，则递归；
+              myFreeze(obj[key]
+            }
+        }
+    }
+}
+
+
+// 手动实现 Promise.all;  
