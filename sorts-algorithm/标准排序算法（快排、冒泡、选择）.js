@@ -66,6 +66,24 @@ while(low<heigh){
 return arr;
 }
 
+// function bubbleSort(arr){
+//     let low=0;
+//     let height=arr.length;
+//     let j=null;
+//     while(low<height){
+//         for(j=low;j<height;j++){
+//             if(arr[j]>arr[j+1]){
+//                 [arr[j],arr[j+1]]=[arr[j+1],arr[j]]
+//             }
+//         }
+//         --height;
+//         for(j=height;j>low;j--){
+//             if(arr[j]<arr[j-1]){
+//               [arr[j],arr[j-1]]=[arr[j-1],arr[j]]
+//             }
+//         }
+//     }
+// }
 
 /**
  * 
