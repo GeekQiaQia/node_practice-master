@@ -152,7 +152,7 @@ Function.prototype.bind=function(context,...args){
 }
 // 手动实现call();
 /**
- * Object 构造函数创建一个对象包装器  r
+ * Object 构造函数创建一个对象包装器  
  * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object
  * 
 */
@@ -525,6 +525,7 @@ class EventEmitter{
         if(!this.events[eventName]){
             this.events[eventName]=[callback]
         }else{
+
             this.events[eventName].push(callback);
         }
     }
@@ -612,7 +613,7 @@ function myFreeze(obj){
                 });
 
               // 如果属性依然为对象，则递归；
-              myFreeze(obj[key]
+              myFreeze(obj[key])
             }
         }
     }
